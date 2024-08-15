@@ -59,4 +59,4 @@ docker start -i -a <name>
 docker rm <name>
 ```
 
-> All this command has a GUI in the Docker Desktop app as well.
+> All these commands have a GUI in the Docker Desktop app as well.
