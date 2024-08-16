@@ -20,9 +20,9 @@ This Docker image is designed to provide a pre-configured environment for roboti
 - [Docker](https://www.docker.com/) installed on your system
 - Git (for cloning this repository)
 
-## Building the Docker Image
+## Download the Docker Image
 
-### Method 1: From Docker Hub
+### Method 1: Pull from Docker Hub
 
 Docker image is built using `github-action`, and uploaded to [Docker Hub](https://hub.docker.com/r/hansonhschang/ros2-vicon).
 
@@ -30,7 +30,7 @@ Docker image is built using `github-action`, and uploaded to [Docker Hub](https:
 docker pull hansonhschang/ros2-vicon:latest
 ```
 
-### Method 2: From Dockrfile
+### Method 2: Build locally from Dockrfile
 
 To build the Docker image locally:
 
