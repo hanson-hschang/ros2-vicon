@@ -8,7 +8,7 @@ on:
       reason:
         description: 'Reason for manual rebuild'
         required: true
-        default: 'Manual Rebuild'
+        default: 'Manual Rebuild: Triggered by user'
 
 jobs:
 
