@@ -1,10 +1,14 @@
 name: Publish Docker Image to Docker Hub CI
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual rebuild'
+        required: true
+        default: 'Manural Rebuild'
 
 jobs:
 
