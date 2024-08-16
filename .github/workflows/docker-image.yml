@@ -1,0 +1,22 @@
+name: Publish Docker Image to Docker Hub CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build_and_publish_image:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile -t hansonhschang/ros2-vicon:$(date +%s)
+    - name: publish
+      run: |
+        docker login -u hansonhschang -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push hansonhschang/ros2-vicon:$(date +%s)
