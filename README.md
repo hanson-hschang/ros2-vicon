@@ -1,3 +1,6 @@
+
+[![Publish Docker Image to Docker Hub CI](https://github.com/hanson-hschang/ros2-vicon/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/hanson-hschang/ros2-vicon/actions/workflows/docker-image.yml)
+
 1. Download Docker from its [website](https://www.docker.com/)
 
 2. Clone this repostitory 
