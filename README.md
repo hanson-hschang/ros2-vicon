@@ -22,7 +22,17 @@ This Docker image is designed to provide a pre-configured environment for roboti
 
 ## Building the Docker Image
 
-To build the Docker image:
+### Method 1: From Docker Hub
+
+Docker image is built using `github-action`, and uploaded to [Docker Hub](https://hub.docker.com/r/hansonhschang/ros2-vicon).
+
+```zsh
+docker pull hansonhschang/ros2-vicon:latest
+```
+
+### Method 2: From Dockrfile
+
+To build the Docker image locally:
 
 1. Clone this repostitory 
   ```zsh
