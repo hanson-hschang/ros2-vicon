@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  IMAGE_NAME: hansonhschang/ros2-vicon:$(date +%s)
+
 jobs:
 
   build_and_publish_image:
@@ -15,8 +18,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile -t hansonhschang/ros2-vicon:$(date +%s)
-    - name: publish
+      run: docker build . --file Dockerfile -t $IMAGE_NAME
+    - name: Publish the Docker image to Docker Hub
       run: |
         docker login -u hansonhschang -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker push hansonhschang/ros2-vicon:$(date +%s)
+        docker push $IMAGE_NAME
