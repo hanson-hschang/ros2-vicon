@@ -10,14 +10,18 @@ git clone https://github.com/hanson-hschang/ros2-vicon.git
 cd ros2-vicon
 ```
 
-4. Build the image from the `Dockerfile`. The `-t ros2-vicon` means to tag the image with a name "ros2-vicon". The `.` means to look for the `Dockerfile` in the current directory. Note that the tag name can be of your choice but can only be in lower cases.
+4. Build the image from the `Dockerfile`. 
+The `.` after `build` means to look for the `Dockerfile` in the current directory. 
+The `-t <name>` means to tag the image with a name `<name>`. 
+Note that the tag name can be any of your choice but it can only be in lower cases.
 ```zsh
-docker build -t ros2-vicon .
+docker build . -t <name>
 ```
+> A built image on [Docker Hub](https://hub.docker.com/r/hansonhschang/ros2-vicon) may also be pulled directly.
 
 5. To create and start a new container from the image, run the following command
 ```zsh
-docker run -i -t --rm --entrypoint bash ros2-vicon    
+docker run -i -t --rm --entrypoint bash <name>
 ```
 |  flag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  |  value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | function  |
 |  ------------  | ------------ | ----------- |
@@ -25,7 +29,7 @@ docker run -i -t --rm --entrypoint bash ros2-vicon
 |  `-t`          |              | allocates a pseudo-TTY, which provides an interactive shell in the container |
 | `--rm`         |              | automatically removes the container when it exits. It's useful for creating temporary containers that clean up after themselves |
 | `--entrypoint` | `bash`       | overrides the default entrypoint of the container with bash. It means that instead of running whatever command was specified as the default in the `Dockerfile`, the container will start a bash shell. |
-|                | `ros2-vicon` | name of the Docker image to use for creating the container.
+|                | `<name>` | name of the Docker image to use for creating the container.
 
 6. Now you have entered the bash in the container just created. To exit, run the following command, and the container will be clean up because of the `--rm` flag in the previous command.
 ```bash
@@ -57,6 +61,11 @@ docker start -i -a <name>
 10. (Optional) To remove one container with name `<name>`
 ```zsh
 docker rm <name>
+```
+
+11. (Optional) To remove an image with name `<name>`
+```zsh
+docker rmi <name>
 ```
 
 > All these commands have a GUI in the Docker Desktop app as well.
