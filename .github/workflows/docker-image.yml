@@ -8,7 +8,7 @@ on:
       reason:
         description: 'Reason for manual rebuild'
         required: true
-        default: 'Manural Rebuild'
+        default: 'Manual Rebuild'
 
 jobs:
 
