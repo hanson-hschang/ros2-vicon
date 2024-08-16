@@ -6,20 +6,20 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  IMAGE_NAME: hansonhschang/ros2-vicon:$(date +%s)
-
 jobs:
 
   build_and_publish_image:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image-name: [ "hansonhschang/ros2-vicon:$(date +%s)" ]
 
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile -t $IMAGE_NAME
+      run: docker build . --file Dockerfile -t ${{ matrix.image-name }}
     - name: Publish the Docker image to Docker Hub
       run: |
         docker login -u hansonhschang -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker push $IMAGE_NAME
+        docker push ${{ matrix.image-name }}
