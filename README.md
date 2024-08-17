@@ -136,9 +136,21 @@ docker run -it --rm hansonhschang/ros2-vicon ros2 launch vicon_receiver client.l
 
 To see the data, you can implement your own listener or use `ros2 topic echo <topic name>`.
 
-#### Tips
+#### Mock Vicon System
+
+Mock system can be launched when Vicon system is not available.
 
 ```zsh
+docker run -it --rm hansonhschang/ros2-vicon ros2 launch vicon_receiver mock_client.launch.py
+```
+
+#### Ros2 Tips
+
+More commands are available in official ROS2 documentation. Here, I'm providing few that will be useful
+to debug the `docker` container.
+
+```zsh
+docker run -it --rm hansonhschang/ros2-vicon ros2 topic list  # list all available ros2 topics
 docker run -it --rm hansonhschang/ros2-vicon ros2 topic list  # list all available ros2 topics
 ```
 
