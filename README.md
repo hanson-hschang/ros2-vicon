@@ -150,8 +150,9 @@ More commands are available in official ROS2 documentation. Here, I'm providing 
 to debug the `docker` container.
 
 ```zsh
+docker run -it --rm hansonhschang/ros2-vicon ros2 pkg list    # list all available ros2 packages
 docker run -it --rm hansonhschang/ros2-vicon ros2 topic list  # list all available ros2 topics
-docker run -it --rm hansonhschang/ros2-vicon ros2 topic list  # list all available ros2 topics
+docker run -it --rm hansonhschang/ros2-vicon ros2 topic echo <topic name>  # listen a topic data
 ```
 
 ## CI/CD
