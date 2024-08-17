@@ -30,6 +30,9 @@ Docker image is built using `github-action`, and uploaded to [Docker Hub](https:
 docker pull hansonhschang/ros2-vicon:latest
 ```
 
+> The variable `<name>` in following sections will be `hansonhschang/ros2-vicon`.
+
+
 ### Method 2: Build locally from Dockrfile
 
 To build the Docker image locally:
@@ -122,8 +125,8 @@ You can run `ros2` commands as if you have `ros2` installed on local machine. Ju
 Run the following ros2 nodes on each terminal:
 
 ```zsh
-docker run -it --rm hansonhschang/ros2-vicon ros2 run demo_nodes_cpp talker
-docker run -it --rm hansonhschang/ros2-vicon ros2 run demo_nodes_cpp listener
+docker run -it --rm <name> ros2 run demo_nodes_cpp talker
+docker run -it --rm <name> ros2 run demo_nodes_cpp listener
 ```
 
 ### Launch Vicon
@@ -131,7 +134,7 @@ docker run -it --rm hansonhschang/ros2-vicon ros2 run demo_nodes_cpp listener
 > The default host ip is `192.168.1.12`.
 
 ```zsh
-docker run -it --rm hansonhschang/ros2-vicon ros2 launch vicon_receiver client.launch.py
+docker run -it --rm <name> ros2 launch vicon_receiver client.launch.py
 ```
 
 To see the data, you can implement your own listener or use `ros2 topic echo <topic name>`.
@@ -141,7 +144,7 @@ To see the data, you can implement your own listener or use `ros2 topic echo <to
 Mock system can be launched when Vicon system is not available.
 
 ```zsh
-docker run -it --rm hansonhschang/ros2-vicon ros2 launch vicon_receiver mock_client.launch.py
+docker run -it --rm <name> ros2 launch vicon_receiver mock_client.launch.py
 ```
 
 #### Ros2 Tips
@@ -150,9 +153,9 @@ More commands are available in official ROS2 documentation. Here, I'm providing 
 to debug the `docker` container.
 
 ```zsh
-docker run -it --rm hansonhschang/ros2-vicon ros2 pkg list    # list all available ros2 packages
-docker run -it --rm hansonhschang/ros2-vicon ros2 topic list  # list all available ros2 topics
-docker run -it --rm hansonhschang/ros2-vicon ros2 topic echo <topic name>  # listen a topic data
+docker run -it --rm <name> ros2 pkg list    # list all available ros2 packages
+docker run -it --rm <name> ros2 topic list  # list all available ros2 topics
+docker run -it --rm <name> ros2 topic echo <topic name>  # listen a topic data
 ```
 
 ## CI/CD
