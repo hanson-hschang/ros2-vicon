@@ -23,6 +23,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Get current date
       id: date
       run: echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
@@ -31,14 +32,30 @@ jobs:
       run: docker build . --file Dockerfile -t ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}
 
     - name: Login to Docker Hub
+      if: github.event_name != 'pull_request'
       uses: docker/login-action@v2
       with:
         username: hansonhschang
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Push the Docker image to Docker Hub
+      if: github.event_name != 'pull_request'
       run: |
         docker push ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}
         docker tag ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }} ${{ env.IMAGE_NAME }}:latest
         docker push ${{ env.IMAGE_NAME }}:latest
-  
+
+    - name: Output build and push info
+      if: github.event_name != 'pull_request'
+      run: |
+        echo "Docker image built successfully: ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}"
+        echo "Image tagged as latest: ${{ env.IMAGE_NAME }}:latest"
+        echo "Both tags have been pushed to Docker Hub."
+        echo "Event type: ${{ github.event_name }}"
+
+    - name: Output build info for pull requests
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "Docker image built successfully: ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}"
+        echo "Image not pushed to Docker Hub as this is a pull request."
+        echo "Event type: ${{ github.event_name }}"
