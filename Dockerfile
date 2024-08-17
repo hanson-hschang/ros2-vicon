@@ -16,10 +16,9 @@ RUN apt-get update && apt-get install -y \
     vim \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "source /opt/ros/foxy/setup.bash" >> /root/.bashrc
 
 # Clone the ros2-vicon-receiver package
-ENV WS=/vicon_ws
+ENV WS /vicon_ws
 RUN mkdir -p $WS/src && \
     cd $WS/src && \
     git clone https://github.com/skim0119/ros2-vicon-receiver && \
@@ -30,7 +29,15 @@ RUN mkdir -p $WS/src && \
 WORKDIR $WS
 RUN source /opt/ros/foxy/setup.bash && \
     colcon build --symlink-install
-RUN echo "source /vicon_ws/install/setup.bash" >> /root/.bashrc
+
+WORKDIR /
+RUN source vicon_ws/install/setup.bash
+
+RUN echo ". /opt/ros/foxy/setup.bash" >> /root/.bashrc
+RUN echo ". /vicon_ws/install/setup.bash" >> /root/.bashrc
+
+RUN sed -e '/[ -z "$PS1" ] && return/s/^/#/g' -i /root/.bashrc
 
 # Set the entrypoint to use ROS 2
-ENTRYPOINT ["/bin/bash", "-c", "ros2 launch vicon_receiver client.lanuch.py && exec \"$@\"", "--"]
+ENTRYPOINT ["/bin/bash", "-c", "source ~/.bashrc && exec \"$@\"", "--"]
+CMD ["bash"]
