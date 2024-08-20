@@ -14,8 +14,14 @@ RUN apt-get update && apt-get install -y \
     git \
     htop \
     vim \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+# Install python packages
+RUN pip3 install --upgrade pip
+RUN pip3 install numpy matplotlib scipy scikit-learn
+RUN pip3 install h5py torch==2.1.2+cpu -f https://download.pytorch.org/whl/torch_stable.html
+RUN rm -rf /root/.cache/pip
 
 # Clone the ros2-vicon-receiver package
 ENV WS /vicon_ws
@@ -35,6 +41,10 @@ RUN source vicon_ws/install/setup.bash
 
 RUN echo ". /opt/ros/foxy/setup.bash" >> /root/.bashrc
 RUN echo ". /vicon_ws/install/setup.bash" >> /root/.bashrc
+
+# Set alias
+RUN echo "alias python=python3" >> /root/.bashrc
+RUN echo "alias pip=pip3" >> /root/.bashrc
 
 RUN sed -e '/[ -z "$PS1" ] && return/s/^/#/g' -i /root/.bashrc
 
