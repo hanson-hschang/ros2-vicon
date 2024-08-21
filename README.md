@@ -118,8 +118,6 @@ For GUI applications, you may need to set up X11 forwarding or use other methods
 
 You can run `ros2` commands as if you have `ros2` installed on local machine. Just prepend `docker run -it --rm <name> ros2`.
 
-By default, the starting directory for the image is set to `/bag_files`.
-
 > To use your own script or folder outside of the container, you have to create the container without `--rm` flag, and copy the contents inside. Take a look [here](https://docs.docker.com/reference/cli/docker/container/cp/).
 
 ### Test Ros2: Talker and Listener
