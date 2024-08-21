@@ -27,7 +27,7 @@ RUN mkdir -p /bag_files
 # Install python packages
 RUN pip3 install --upgrade pip
 RUN pip3 install numpy matplotlib scipy scikit-learn
-RUN pip3 install h5py torch==2.1.2+cpu -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip3 install h5py torchvision==0.16.2 torch==2.1.2+cpu -f https://download.pytorch.org/whl/torch_stable.html
 RUN rm -rf /root/.cache/pip
 
 # Clone the ros2-vicon-receiver package
