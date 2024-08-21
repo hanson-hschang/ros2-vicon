@@ -12,7 +12,7 @@ This Docker image is designed to provide a pre-configured environment for roboti
 
 - ROS2 Foxy desktop installation
 - Vicon SDK and necessary dependencies
-- Pre-configured for seamless integration between ROS2 and Vicon systems
+- Pre-configured for integration between ROS2 and Vicon systems
 - Suitable for robotics research and development involving motion capture
 
 ## Prerequisites
@@ -57,6 +57,8 @@ To build the Docker image locally:
   > A built image on [Docker Hub](https://hub.docker.com/r/hansonhschang/ros2-vicon) may also be pulled directly.
 
 ## Using the Docker Image
+
+To find more details on how to use Docker, please refer Docker's official documentation. Here, we list couple of CLI commands that can be useful to setup.
 
 1. To create and start a new container from the image, run the following command
   ```zsh
@@ -112,7 +114,7 @@ To build the Docker image locally:
 
 For GUI applications, you may need to set up X11 forwarding or use other methods to enable GUI support.
 
-## How to use
+## Using the ROS2
 
 You can run `ros2` commands as if you have `ros2` installed on local machine. Just prepend `docker run -it --rm <name> ros2`.
 
@@ -146,6 +148,21 @@ Mock system can be launched when Vicon system is not available.
 ```zsh
 docker run -it --rm <name> ros2 launch vicon_receiver mock_client.launch.py
 ```
+
+
+#### Ros2bag
+
+More documentation can be found [here](https://docs.ros.org/en/foxy/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html).
+
+The docker image includes the directory `/bag_files` for users to save the file. To use directory as your working directory for `ros2bag`, you can use `-w` option for `docker-run` to specify which directory to execute the command.
+
+```zsh
+# Use -w or --workdir to specify directory to save ros2bag
+# Not using --rm to keep the container after bag recording
+docker run -it <name> -w /bag_files ros2 bag record <topic_name>
+```
+
+> When you use ros2bag, make sure you download the saved `bag_files` before removing the docker container.
 
 #### Ros2 Tips
 
