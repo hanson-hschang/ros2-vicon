@@ -17,6 +17,13 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get install -y \
+    ros-foxy-ros2bag \
+    ros-foxy-rosbag2-converter-default-plugins \
+    ros-foxy-rosbag2-storage-default-plugins \
+    && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /bag_files
+
 # Install python packages
 RUN pip3 install --upgrade pip
 RUN pip3 install numpy matplotlib scipy scikit-learn
