@@ -91,18 +91,18 @@ To find more details on how to use Docker, please refer Docker's official docume
   ```
   In this case, a container with name `nice_margulis` is running.
 
-5. (Optional) To re-start one container with name `<name>`
+5. (Optional) To re-start one container with name `<container_name>`
   ```zsh
-  docker start -i -a <name>
+  docker start -i -a <container_name>
   ```
   |  flag  | function  |
   |  ------------ | ----------- |
   |  `-i`         | keeps `STDIN` open even if not attached, allowing for interactive use  |
   |  `-a`         | attaches the terminal to the container's `STDOUT` (standard output) and `STDERR` (standard error) streams. This means you'll see the output from the container's main process in your terminal. |
 
-6. (Optional) To remove one container with name `<name>`
+6. (Optional) To remove one container with name `<container_name>`
   ```zsh
-  docker rm <name>
+  docker rm <container_name>
   ```
 
 7. (Optional) To remove an image with name `<name>`
@@ -139,7 +139,15 @@ docker run -it --rm <name> ros2 run demo_nodes_cpp listener
 docker run -it --rm <name> ros2 launch vicon_receiver client.launch.py
 ```
 
-To see the data, you can implement your own listener or use `ros2 topic echo <topic name>`.
+To see the topics, you may use 
+```zsh
+docker run -it --rm <name> ros2 topic list
+```
+
+To see the message in the topic `<topic_name>`, you can implement your own listener or use 
+```zsh
+docker run -it --rm <name> ros2 topic echo <topic_name>
+```
 
 #### Mock Vicon System
 
@@ -154,15 +162,33 @@ docker run -it --rm <name> ros2 launch vicon_receiver mock_client.launch.py
 
 More documentation can be found [here](https://docs.ros.org/en/foxy/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html).
 
-The docker image includes the directory `/bag_files` for users to save the file. To use directory as your working directory for `ros2bag`, you can use `-w` option for `docker-run` to specify which directory to execute the command.
+The docker image includes the directory `/bag_files` for users to save the file. To use directory as your working directory for `ros2bag`, you will need to use two terminals. 
 
+In the first one, create a container
 ```zsh
-# Use -w or --workdir to specify directory to save ros2bag
-# Not using --rm to keep the container after bag recording
-docker run -it <name> -w /bag_files ros2 bag record <topic_name>
+docker run -it --rm <name> 
+```
+and when you want to start the record, run
+```bash
+ros2 bag record -o bag_files/<record_name> /topic1 /topic2 /topic3
+```
+where `-o` tag means output file directory.
+
+To finish the recording, press `control+c` directly.
+This will stop the recording and save the data in the folder `<record_name>` directly under the `bagfiles` directory.
+
+To move the recording outside of the container, run the following command in the second terminal
+```zsh
+docker cp <container_name>:/bagfiles/<record_name> /path/to/your/local/directory
+```
+and you are done!
+
+To replay the recording `<record_name>` in the container, run
+```bash
+ros2 bag play bag_files/<record_name>
 ```
 
-> When you use ros2bag, make sure you download the saved `bag_files` before removing the docker container.
+> When you use `ros2bag`, make sure you download the saved `bag_files` before exiting or removing the docker container.
 
 #### Ros2 Tips
 
