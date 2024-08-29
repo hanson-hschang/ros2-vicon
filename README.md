@@ -166,54 +166,54 @@ docker run -it --rm <name> ros2 launch vicon_receiver mock_client.launch.py
 
 More documentation can be found [here](https://docs.ros.org/en/foxy/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html).
 
-#### Save on host
+#### Save in the host folder
 
 Using the docker `-v` flag which mounts the host directory, data can be directly saved in host file system.
 
 ```zsh
 docker run -it --rm \
-  -v <host_path>:<container_path> \
+  -v <host_directory_path>:/bag_files \
   <name> \
-  ros2 bag record -o <container_path>/<record_name> /topic1 /topic2 /topic3
+  ros2 bag record -o /bag_files/<record_name> /topic1 /topic2 /topic3
 ```
 
-#### Save on container
+#### Save in the container folder
 
 <details>
-  <summary>Click me</summary>
+  <summary>Click me for more detail.</summary>
 
-The docker image includes the directory `/bag_files` for users to save the file. To use directory as your working directory for `ros2bag`, you will need to use two terminals. 
+  The docker image includes the directory `/bag_files` for users to save the file. To use directory as your working directory for `ros2bag`, you will need to use two terminals. 
 
-In the first one, create a container
-```zsh
-docker run -it --rm <name> 
-```
-and when you want to start the record, run
-```bash
-ros2 bag record -o bag_files/<record_name> /topic1 /topic2 /topic3
-```
-where `-o` tag means output file directory.
+  In the first one, create a container
+  ```zsh
+  docker run -it --rm <name> 
+  ```
+  and when you want to start the record, run
+  ```bash
+  ros2 bag record -o bag_files/<record_name> /topic1 /topic2 /topic3
+  ```
+  where `-o` tag means output file directory.
 
-To finish the recording, press `control+c` directly.
-This will stop the recording and save the data in the folder `<record_name>` directly under the `bag_files` directory.
+  To finish the recording, press `control+c` directly.
+  This will stop the recording and save the data in the folder `<record_name>` directly under the `bag_files` directory.
 
-To move the recording outside of the container, run the following command in the second terminal
-```zsh
-docker cp <container_id>:/bag_files/<record_name> /path/to/your/local/directory
-```
-and you are done!
+  To move the recording outside of the container, run the following command in the second terminal
+  ```zsh
+  docker cp <container_id>:/bag_files/<record_name> <host_directory_path>
+  ```
+  and you are done!
 
-To move the recording `<record_name>` from your local end into the container, run
-```zsh
-docker cp /path/to/your/local/directory/<record_name> <container_id>:/bag_files/
-```
+  To move the recording `<record_name>` from your local end into the container, run
+  ```zsh
+  docker cp <host_directory_path>/<record_name> <container_id>:/bag_files/
+  ```
 
-To replay the recording `<record_name>` in the container, run
-```bash
-ros2 bag play bag_files/<record_name>
-```
+  To replay the recording `<record_name>` in the container, run
+  ```bash
+  ros2 bag play bag_files/<record_name>
+  ```
 
-> When you use `ros2bag`, make sure you download the saved `bag_files` before exiting or removing the docker container.
+  > When you use `ros2bag`, make sure you download the saved `bag_files` before exiting or removing the docker container.
 
 </details>
 
