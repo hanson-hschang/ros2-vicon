@@ -73,6 +73,8 @@ To find more details on how to use Docker, please refer Docker's official docume
   | `--entrypoint` | `bash`       | overrides the default entrypoint of the container with bash. It means that instead of running whatever command was specified as the default in the `Dockerfile`, the container will start a bash shell. |
   |                | `<name>` | name of the Docker image to use for creating the container.
 
+ > One may also combine two tags together, e.g. `-i -t` is the same as `-it`. 
+
 2. Now you have entered the bash in the container just created. To exit, run the following command, and the container will be clean up because of the `--rm` flag in the previous command.
   ```bash
   exit
@@ -89,9 +91,9 @@ To find more details on how to use Docker, please refer Docker's official docume
   CONTAINER ID   IMAGE        COMMAND   CREATED          STATUS                     PORTS     NAMES
   163d0594b46d   ros2-vicon   "bash"    13 seconds ago   Exited (0) 7 seconds ago             nice_margulis
   ```
-  In this case, a container with name `nice_margulis` is running.
+  In this case, a container of name: `nice_margulis` with container id: `163d0594b46d` is running.
 
-5. (Optional) To re-start one container with name `<container_name>`
+5. (Optional) To re-start one container with name `<container_id>`
   ```zsh
   docker start -i -a <container_name>
   ```
@@ -100,9 +102,9 @@ To find more details on how to use Docker, please refer Docker's official docume
   |  `-i`         | keeps `STDIN` open even if not attached, allowing for interactive use  |
   |  `-a`         | attaches the terminal to the container's `STDOUT` (standard output) and `STDERR` (standard error) streams. This means you'll see the output from the container's main process in your terminal. |
 
-6. (Optional) To remove one container with name `<container_name>`
+6. (Optional) To remove one container with name `<container_id>`
   ```zsh
-  docker rm <container_name>
+  docker rm <container_id>
   ```
 
 7. (Optional) To remove an image with name `<name>`
@@ -144,9 +146,9 @@ To see the topics, you may use
 docker run -it --rm <name> ros2 topic list
 ```
 
-To see the message in the topic `<topic_name>`, you can implement your own listener or use 
+To see the message in the topic `<topic>`, you can implement your own listener or use 
 ```zsh
-docker run -it --rm <name> ros2 topic echo <topic_name>
+docker run -it --rm <name> ros2 topic echo <topic>
 ```
 
 #### Mock Vicon System
@@ -175,13 +177,18 @@ ros2 bag record -o bag_files/<record_name> /topic1 /topic2 /topic3
 where `-o` tag means output file directory.
 
 To finish the recording, press `control+c` directly.
-This will stop the recording and save the data in the folder `<record_name>` directly under the `bagfiles` directory.
+This will stop the recording and save the data in the folder `<record_name>` directly under the `bag_files` directory.
 
 To move the recording outside of the container, run the following command in the second terminal
 ```zsh
-docker cp <container_name>:/bagfiles/<record_name> /path/to/your/local/directory
+docker cp <container_id>:/bag_files/<record_name> /path/to/your/local/directory
 ```
 and you are done!
+
+To move the recording `<record_name>` from your local end into the container, run
+```zsh
+docker cp /path/to/your/local/directory/<record_name> <container_id>:/bag_files/
+```
 
 To replay the recording `<record_name>` in the container, run
 ```bash
@@ -198,7 +205,7 @@ to debug the `docker` container.
 ```zsh
 docker run -it --rm <name> ros2 pkg list    # list all available ros2 packages
 docker run -it --rm <name> ros2 topic list  # list all available ros2 topics
-docker run -it --rm <name> ros2 topic echo <topic name>  # listen a topic data
+docker run -it --rm <name> ros2 topic echo <topic>  # listen to a topic data
 ```
 
 ## CI/CD
