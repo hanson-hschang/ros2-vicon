@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+# Install ROS2 plugins
 RUN apt-get install -y \
     ros-foxy-ros2bag \
     ros-foxy-rosbag2-converter-default-plugins \
@@ -26,8 +27,7 @@ RUN mkdir -p /bag_files
 
 # Install python packages
 RUN pip3 install --upgrade pip
-RUN pip3 install numpy matplotlib scipy scikit-learn
-RUN pip3 install h5py torchvision==0.16.2 torch==2.1.2+cpu -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip3 install numpy
 RUN rm -rf /root/.cache/pip
 
 # Clone the ros2-vicon-receiver package
